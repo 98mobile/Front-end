@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:frontend/screens/ChooseGame.dart';
+
+
+
+TextEditingController _textController = TextEditingController();
+
 
 void main() {
   runApp(const MyApp());
@@ -6,88 +14,129 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'alcoolnineeight',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'nineeight',
+      routes: {
+
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/chooseGame': (context) => const ChooseGame(),
+      },
+
+      home: Welcome(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class Welcome extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Welcome> createState() => _WelcomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: TextField(),
-
-      // Image.asset(
-      //   '../assets/images/CardView1.jpg',
-      //   height: 100,
-      //   width: 200,
-      // ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Center(
+          child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+              Color.fromARGB(255, 244, 8, 209),
+              Color.fromARGB(255, 158, 24, 138),
+            ])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/Card.png',
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Entrez votre nom de jeu',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: barreDeSaisie,
+            ),
+            const SizedBox(height: 20),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Bouton(context),)
+          ],
+        ),
+      )),
     );
   }
 }
+
+Widget barreDeSaisie = Container(
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(10),
+    color: const Color.fromARGB(255, 255, 255, 255),
+  ),
+  child: TextField(
+    controller: _textController,
+  ),
+);
+
+//192.168.1.168
+final String _url = 'http://192.168.1.168:5000/post/createUser';
+String role=  ' vide';
+Widget Bouton(BuildContext context) {
+  return Container(
+
+    width: double.infinity,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color:  const Color.fromARGB(255, 255, 255, 255),
+    ),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(elevation: 2),
+      onPressed: () async {
+        final response = await Dio().post(
+          _url,
+          data: jsonEncode(<String, String>{
+            'username': _textController.text,
+            'role': role,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          print("Post successfully created.");
+        } else {
+          print("Failed to create post.");
+        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ChooseGame(),
+          ),
+        );
+      },
+      child:  const Text('Valider'),
+    ),
+  );
+}
+Widget Texte = Container(
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color:  const Color.fromARGB(255, 255, 255, 255),
+    ),
+    child: Row(children: [
+      TextField(
+        controller: _textController,
+        decoration: const InputDecoration(
+          labelText: "Enter your text here",
+        ),
+      ),
+    ]));
+
+
