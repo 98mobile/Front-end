@@ -22,7 +22,13 @@ class MainMenuScreen extends StatelessWidget {
       body: Responsive(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children:<Widget> [
+            Image.asset(
+              'assets/images/Card.png',
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(height: 20),
             CustomButton(
               onTap: () => createRoom(context),
               text: 'Create Room',
