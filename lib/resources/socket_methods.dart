@@ -4,10 +4,14 @@ import 'package:mp_tictactoe/resources/game_methods.dart';
 import 'package:mp_tictactoe/resources/socket_client.dart';
 import 'package:mp_tictactoe/screens/game_screen.dart';
 import 'package:mp_tictactoe/utils/utils.dart';
+import 'package:mp_tictactoe/views/waiting_lobby.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-class SocketMethods {
+class SocketMethods with WidgetsBindingObserver  {
+
+  //implémenter le disconnect automatique
+
   final _socketClient = SocketClient.instance.socket!;
 
   Socket get socketClient => _socketClient;
@@ -21,6 +25,13 @@ class SocketMethods {
     }
   }
 
+  void disconnect(String roomId, String nickname) {
+    _socketClient.emit('disconnect', {
+      'roomId': roomId,
+      'nickname': nickname,
+    });
+  }
+
   void joinRoom(String nickname, String roomId) {
     if (nickname.isNotEmpty && roomId.isNotEmpty) {
       _socketClient.emit('joinRoom', {
@@ -30,10 +41,22 @@ class SocketMethods {
     }
   }
 
-  void tapGrid(int index, String roomId, List<String> displayElements) {
-    if (displayElements[index] == '') {
+  void startGame(String nickname, String roomId) {
+    if (nickname.isNotEmpty && roomId.isNotEmpty) {
+      _socketClient.emit('start', {
+        'nickname': nickname,
+        'roomId': roomId,
+      });
+    }
+  }
+
+
+  //modifier pour renvoyer la carte sélectionné
+  //choosecard
+  void chooseCard(String valeur, String roomId) {
+    if (valeur.isNotEmpty && roomId.isNotEmpty) {
       _socketClient.emit('tap', {
-        'index': index,
+        'valeur': valeur,
         'roomId': roomId,
       });
     }
@@ -44,12 +67,21 @@ class SocketMethods {
     _socketClient.on('createRoomSuccess', (room) {
       Provider.of<RoomDataProvider>(context, listen: false)
           .updateRoomData(room);
-      Navigator.pushNamed(context, GameScreen.routeName);
+      print('ok');
+      Navigator.pushNamed(context, WaitingLobby.routeName);
     });
   }
 
   void joinRoomSuccessListener(BuildContext context) {
     _socketClient.on('joinRoomSuccess', (room) {
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updateRoomData(room);
+      Navigator.pushNamed(context, WaitingLobby.routeName);
+    });
+  }
+
+  void startGameSuccessListener(BuildContext context) {
+    _socketClient.on('startGameSuccess', (room) {
       Provider.of<RoomDataProvider>(context, listen: false)
           .updateRoomData(room);
       Navigator.pushNamed(context, GameScreen.routeName);
@@ -62,6 +94,9 @@ class SocketMethods {
     });
   }
 
+  /// ********************************
+  /// A modifier
+  /// met à jour le tour des coueurs
   void updatePlayersStateListener(BuildContext context) {
     _socketClient.on('updatePlayers', (playerData) {
       Provider.of<RoomDataProvider>(context, listen: false).updatePlayer1(
@@ -70,6 +105,7 @@ class SocketMethods {
       Provider.of<RoomDataProvider>(context, listen: false).updatePlayer2(
         playerData[1],
       );
+
     });
   }
 
@@ -77,38 +113,32 @@ class SocketMethods {
     _socketClient.on('updateRoom', (data) {
       Provider.of<RoomDataProvider>(context, listen: false)
           .updateRoomData(data);
+          print("ffffffffffffffffffffffffffff"+data);
     });
   }
 
-  void tappedListener(BuildContext context) {
+  ///update apres que l'info soit passé par la back-end
+  ///modifier pour augmenter le score de la gagme + check défaite
+  ///ecoute 'choosedCard'
+  void choosedCardListener(BuildContext context) {
     _socketClient.on('tapped', (data) {
       RoomDataProvider roomDataProvider =
           Provider.of<RoomDataProvider>(context, listen: false);
-      roomDataProvider.updateDisplayElements(
-        data['index'],
-        data['choice'],
-      );
+      //appel à la meme fonction
+     /* roomDataProvider.updateDisplayElements(
+        data['valeur'],
+        data['famille'],
+      );*/
       roomDataProvider.updateRoomData(data['room']);
-      // check winnner
-      GameMethods().checkWinner(context, _socketClient);
+      // check Loser
+      GameMethods().checkLooser(context, _socketClient);
     });
   }
 
-  void pointIncreaseListener(BuildContext context) {
-    _socketClient.on('pointIncrease', (playerData) {
-      var roomDataProvider =
-          Provider.of<RoomDataProvider>(context, listen: false);
-      if (playerData['socketID'] == roomDataProvider.player1.socketID) {
-        roomDataProvider.updatePlayer1(playerData);
-      } else {
-        roomDataProvider.updatePlayer2(playerData);
-      }
-    });
-  }
-
+  //ok renvoie à l'acceuil
   void endGameListener(BuildContext context) {
     _socketClient.on('endGame', (playerData) {
-      showGameDialog(context, '${playerData['nickname']} won the game!');
+      showGameDialog(context, '${playerData['nickname']} a perdu !');
       Navigator.popUntil(context, (route) => false);
     });
   }

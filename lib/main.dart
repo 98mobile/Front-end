@@ -5,6 +5,7 @@ import 'package:mp_tictactoe/screens/game_screen.dart';
 import 'package:mp_tictactoe/screens/join_room_screen.dart';
 import 'package:mp_tictactoe/screens/main_menu_screen.dart';
 import 'package:mp_tictactoe/utils/colors.dart';
+import 'package:mp_tictactoe/views/waiting_lobby.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -27,7 +28,9 @@ class MyApp extends StatelessWidget {
           MainMenuScreen.routeName: (context) => const MainMenuScreen(),
           JoinRoomScreen.routeName: (context) => const JoinRoomScreen(),
           CreateRoomScreen.routeName: (context) => const CreateRoomScreen(),
+          WaitingLobby.routeName: (context) => const WaitingLobby(),
           GameScreen.routeName: (context) => const GameScreen(),
+
         },
         initialRoute: MainMenuScreen.routeName,
       ),

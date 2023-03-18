@@ -15,6 +15,7 @@ class CreateRoomScreen extends StatefulWidget {
 
 class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _gameIdController = TextEditingController();
   final SocketMethods _socketMethods = SocketMethods();
 
   @override
@@ -26,6 +27,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   @override
   void dispose() {
     super.dispose();
+    _gameIdController.dispose();
     _nameController.dispose();
   }
 
@@ -50,13 +52,18 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                     color: Colors.blue,
                   ),
                 ],
-                text: 'Create Room',
+                text: 'Créer une salle',
                 fontSize: 70,
               ),
               SizedBox(height: size.height * 0.08),
               CustomTextField(
                 controller: _nameController,
-                hintText: 'Enter your nickname',
+                hintText: 'Entrez votre nom',
+              ),
+              SizedBox(height: size.height * 0.045),
+              CustomTextField(
+                controller: _gameIdController,
+                hintText: 'ID de salle',
               ),
               SizedBox(height: size.height * 0.045),
               CustomButton(

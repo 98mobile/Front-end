@@ -1,12 +1,18 @@
 class Player {
   final String nickname;
   final String socketID;
-  final double points;
-  final String playerType;
+  final String card1;
+  final String card2;
+  final String card3;
+  final String card4;
+  final int playerType;
   Player({
     required this.nickname,
     required this.socketID,
-    required this.points,
+    required this.card1,
+    required this.card2,
+    required this.card3,
+    required this.card4,
     required this.playerType,
   });
 
@@ -14,7 +20,10 @@ class Player {
     return {
       'nickname': nickname,
       'socketID': socketID,
-      'points': points,
+      'card1' : card1,
+      'card2' : card2,
+      'card3' : card3,
+      'card4' : card4,
       'playerType': playerType,
     };
   }
@@ -23,7 +32,10 @@ class Player {
     return Player(
       nickname: map['nickname'] ?? '',
       socketID: map['socketID'] ?? '',
-      points: map['points']?.toDouble() ?? 0.0,
+      card1: map['card1'] ?? '',
+      card2: map['card2'] ?? '',
+      card3: map['card3'] ?? '',
+      card4: map['card4'] ?? '',
       playerType: map['playerType'] ?? '',
     );
   }
@@ -31,13 +43,19 @@ class Player {
   Player copyWith({
     String? nickname,
     String? socketID,
-    double? points,
-    String? playerType,
+    String? card1,
+    String? card2,
+    String? card3,
+    String? card4,
+    int? playerType,
   }) {
     return Player(
       nickname: nickname ?? this.nickname,
       socketID: socketID ?? this.socketID,
-      points: points ?? this.points,
+      card1: card1 ?? this.card1,
+      card2: card2 ?? this.card2,
+      card3: card3 ?? this.card3,
+      card4: card4 ?? this.card4,
       playerType: playerType ?? this.playerType,
     );
   }

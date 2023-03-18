@@ -5,25 +5,38 @@ class RoomDataProvider extends ChangeNotifier {
   Map<String, dynamic> _roomData = {};
   List<String> _displayElement = ['', '', '', '', '', '', '', '', ''];
   int _filledBoxes = 0;
+  String? _currentUserSocketID;
+
   Player _player1 = Player(
     nickname: '',
     socketID: '',
-    points: 0,
-    playerType: 'X',
+    card1: '',
+    card2: '',
+    card3: '',
+    card4: '',
+    playerType: 1,
   );
 
   Player _player2 = Player(
     nickname: '',
     socketID: '',
-    points: 0,
-    playerType: 'O',
+    card1: '',
+    card2: '',
+    card3: '',
+    card4: '',
+    playerType: 2,
   );
+
+
+
+
 
   Map<String, dynamic> get roomData => _roomData;
   List<String> get displayElements => _displayElement;
   int get filledBoxes => _filledBoxes;
   Player get player1 => _player1;
   Player get player2 => _player2;
+  String? get currentUserSocketID => _currentUserSocketID;
 
   void updateRoomData(Map<String, dynamic> data) {
     _roomData = data;
@@ -40,13 +53,17 @@ class RoomDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDisplayElements(int index, String choice) {
-    _displayElement[index] = choice;
-    _filledBoxes += 1;
+
+  void setCurrentUserSocketID(String socketID) {
+    _currentUserSocketID = socketID;
     notifyListeners();
   }
 
-  void setFilledBoxesTo0() {
-    _filledBoxes = 0;
+  void updateDisplayElements(int value, String famille) {
+
+  }
+
+  void setCardsto0() {
+
   }
 }
