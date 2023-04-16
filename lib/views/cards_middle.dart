@@ -28,7 +28,7 @@ class _CardsMiddleState extends State<CardsMiddle> {
   @override
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
-
+    //roomDataProvider.roomData['lastCard']
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +36,7 @@ class _CardsMiddleState extends State<CardsMiddle> {
         Container(
           width: 80,
           height: 120,
-          child: PlayingCard(roomDataProvider.roomData['lastCard']),
+          child: PlayingCard("5co"),
         ),
         SizedBox(width: 10,),
         Container(

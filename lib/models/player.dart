@@ -1,11 +1,12 @@
 class Player {
   final String nickname;
   final String socketID;
-  final String card1;
-  final String card2;
-  final String card3;
-  final String card4;
-  final int playerType;
+   String card1 ='';
+   String card2 ='';
+   String card3 = '';
+   String card4 = '';
+   final int playerType;
+
   Player({
     required this.nickname,
     required this.socketID,
@@ -16,7 +17,8 @@ class Player {
     required this.playerType,
   });
 
-  Map<String, dynamic> toMap() {
+
+  Map<String, dynamic> toJson() {
     return {
       'nickname': nickname,
       'socketID': socketID,
@@ -58,5 +60,7 @@ class Player {
       card4: card4 ?? this.card4,
       playerType: playerType ?? this.playerType,
     );
+
+
   }
 }

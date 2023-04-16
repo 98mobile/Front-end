@@ -31,6 +31,7 @@ class _GameInfoState extends State<GameInfo> {
         child: Column(
           children: [
             const SizedBox(height: 20),
+            Text('${roomDataProvider.roomData['turn']['nickname']}' " est en train de jouer..."),
             Text(
               "Score : " '${roomDataProvider.roomData['currentScore']}',
             ),

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class GameMethods {
+
   void checkLooser(BuildContext context, Socket socketClent) {
     RoomDataProvider roomDataProvider =
         Provider.of<RoomDataProvider>(context, listen: false);

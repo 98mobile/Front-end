@@ -113,7 +113,7 @@ class SocketMethods with WidgetsBindingObserver  {
     _socketClient.on('updateRoom', (data) {
       Provider.of<RoomDataProvider>(context, listen: false)
           .updateRoomData(data);
-          print("ffffffffffffffffffffffffffff"+data);
+
     });
   }
 

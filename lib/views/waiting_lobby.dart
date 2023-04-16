@@ -80,7 +80,12 @@ class _WaitingLobbyState extends State<WaitingLobby> {
                   ),
                 ),
                 const Text('ID de salle'),
-                Text(roomDataProvider.roomData['_id']),
+                SizedBox(height: 20),
+                CustomTextField(
+                  controller: roomIdController,
+                  hintText: '',
+                  isReadOnly: true,
+                ),
 
                 SizedBox(height: 10),
 
