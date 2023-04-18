@@ -32,18 +32,6 @@ class RoomDataProvider extends ChangeNotifier {
     playerType: 2,
   );
 
- /* Room _room = Room (
-    id: '',
-    players: [],
-    isStart: false,
-    occupancy: '',
-    maxScore: 98,
-    turnIndex: 1,
-    lastCard: '',
-    currentScore: 0,
-    turn: Player(soc),
-  );*/
-
 
 
   Map<String, dynamic> get roomData => _roomData;

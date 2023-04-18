@@ -34,11 +34,9 @@ class _PersonnalDeckState extends State<PersonnalDeck> {
   }
 
   findPlayerMe(RoomDataProvider room) {
-    print ('search');
     room.roomData['players'].forEach((player) {
       if (player['socketID'] == SocketClient.instance.socket!.id) {
         playerMe = player;
-        print("playerme = "+playerMe.toString());
       }
     });
   }
@@ -47,7 +45,6 @@ class _PersonnalDeckState extends State<PersonnalDeck> {
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
     findPlayerMe(roomDataProvider);
-    print(playerMe);
     Map<String, dynamic> playerData = playerMe as Map<String, dynamic>;
     String card1 = playerData['card1'] ?? '';
     String card2 = playerData['card2'] ?? '';

@@ -3,7 +3,9 @@ import 'package:mp_tictactoe/provider/room_data_provider.dart';
 import 'package:mp_tictactoe/resources/socket_methods.dart';
 import 'package:mp_tictactoe/views/cards_middle.dart';
 import 'package:mp_tictactoe/views/game_info.dart';
+import 'package:mp_tictactoe/views/other_player_cards.dart';
 import 'package:mp_tictactoe/views/personnal_deck.dart';
+import 'package:mp_tictactoe/views/player_list.dart';
 import 'package:mp_tictactoe/views/playing_card.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   final SocketMethods _socketMethods = SocketMethods();
+  late RoomDataProvider? room;
 
   @override
   void initState() {
@@ -32,10 +35,13 @@ class _GameScreenState extends State<GameScreen> {
     _socketMethods.updateRoomListener(context);
     _socketMethods.updatePlayersStateListener(context);
     _socketMethods.endGameListener(context);
+    room = Provider.of<RoomDataProvider>(context, listen: false);
+
   }
   @override
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
+    List players = roomDataProvider.roomData['players'];
 
     return Scaffold(
       body: Container(
@@ -48,13 +54,19 @@ class _GameScreenState extends State<GameScreen> {
                 child: GameInfo(),
               ),
             ),
+
             Expanded(
               flex: 3,
-              child: Align(
-                alignment: Alignment.center,
-                child: CardsMiddle('Rco'),
+              child: Row(
+                children: [
+                  PlayerList(players: players,),
+                  SizedBox(height: 150, width: 150,),
+                  CardsMiddle('Rco'),
+                  SizedBox(height: 70,),
+              ]
               ),
             ),
+            SizedBox(height: 50,),
             Expanded(
               flex: 2,
               child: PersonnalDeck(),

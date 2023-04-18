@@ -14,9 +14,8 @@ import '../provider/room_data_provider.dart';
 import 'game_info.dart';
 
 class OtherPlayerCards extends StatefulWidget {
-  final int playerIndex;
-
-  const OtherPlayerCards(this.playerIndex, {Key? key}) : super(key: key);
+  String playerName;
+   OtherPlayerCards({Key? key, required this.playerName}) : super(key: key);
 
   @override
   State<OtherPlayerCards> createState() => _OtherPlayerCardsState();
@@ -38,15 +37,14 @@ class _OtherPlayerCardsState extends State<OtherPlayerCards> {
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
     String playerTurn = roomDataProvider.roomData['turn']['nickname'];
-    String player = roomDataProvider.roomData['player'][widget.playerIndex];
+    print(roomDataProvider.roomData);
 
-
-    return Align(
-      alignment: Alignment.bottomCenter,
+    return Container(
+      width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children:  [
-          Text(player),
+          Text(widget.playerName),
         ],
       ),
     );
