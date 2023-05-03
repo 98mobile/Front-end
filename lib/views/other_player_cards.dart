@@ -36,8 +36,10 @@ class _OtherPlayerCardsState extends State<OtherPlayerCards> {
   @override
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
-    String playerTurn = roomDataProvider.roomData['turn']['nickname'];
-    print(roomDataProvider.roomData);
+    String playerTurn = "";
+    if (roomDataProvider.roomData.containsKey('turn') && roomDataProvider.roomData['turn'] != null && roomDataProvider.roomData['turn'].containsKey('nickname')) {
+      playerTurn = roomDataProvider.roomData['turn']['nickname'];
+    }
 
     return Container(
       width: double.infinity,

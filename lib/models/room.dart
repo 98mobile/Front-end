@@ -4,6 +4,7 @@ class Room {
   final String occupancy;
   final String id;
   final List players;
+  final List Listcards;
   final bool isStart;
   final int maxScore;
   final int currentScore;
@@ -15,6 +16,7 @@ class Room {
   Room({
     required this.id,
     required this.players,
+    required this.Listcards,
     required this.isStart,
     required this.occupancy,
     required this.maxScore,
@@ -27,6 +29,7 @@ class Room {
   Map<String, dynamic> toJson() => {
     'id': id,
     'players': players,
+    'Listcards': Listcards,
     'isStart': isStart,
     'occupancy': occupancy,
     'maxScore': maxScore,

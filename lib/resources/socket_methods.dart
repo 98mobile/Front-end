@@ -53,11 +53,12 @@ class SocketMethods with WidgetsBindingObserver  {
 
   //modifier pour renvoyer la carte sélectionné
   //choosecard
-  void chooseCard(String valeur, String roomId) {
-    if (valeur.isNotEmpty && roomId.isNotEmpty) {
+  void chooseCard(String valeur, String roomId, String socketId) {
+    if (valeur.isNotEmpty &&  roomId.isNotEmpty ) {
       _socketClient.emit('tap', {
         'valeur': valeur,
         'roomId': roomId,
+        'socketId': socketId,
       });
     }
   }
@@ -122,14 +123,13 @@ class SocketMethods with WidgetsBindingObserver  {
   ///ecoute 'choosedCard'
   void choosedCardListener(BuildContext context) {
     _socketClient.on('tapped', (data) {
-      RoomDataProvider roomDataProvider =
-          Provider.of<RoomDataProvider>(context, listen: false);
-      //appel à la meme fonction
-     /* roomDataProvider.updateDisplayElements(
-        data['valeur'],
-        data['famille'],
-      );*/
-      roomDataProvider.updateRoomData(data['room']);
+      print("##################################### \n");
+      print(" data room " + data['room'].toString());
+
+      Provider.of<RoomDataProvider>(context, listen: false)
+      .updateRoomData(data['room']);
+
+
       // check Loser
       GameMethods().checkLooser(context, _socketClient);
     });

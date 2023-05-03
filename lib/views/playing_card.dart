@@ -3,6 +3,8 @@ import 'package:mp_tictactoe/provider/room_data_provider.dart';
 import 'package:mp_tictactoe/resources/socket_methods.dart';
 import 'package:provider/provider.dart';
 
+import '../resources/socket_client.dart';
+
 class PlayingCard extends StatefulWidget {
   final String cardValue;
 
@@ -14,22 +16,33 @@ class PlayingCard extends StatefulWidget {
 
 class _PlayingCardState extends State<PlayingCard> {
   final SocketMethods _socketMethods = SocketMethods();
+  var playerMe = null;
+  var socketId = null;
+
 
   @override
   void initState() {
     super.initState();
-    _socketMethods.updateRoomListener(context);
-    _socketMethods.updatePlayersStateListener(context);
-    _socketMethods.endGameListener(context);
+    _socketMethods.choosedCardListener(context);
   }
 
-  @override
+  findPlayerMe(RoomDataProvider room) {
+    room.roomData['players'].forEach((player) {
+      if (player['socketID'] == SocketClient.instance.socket!.id) {
+        playerMe = player;
+        socketId = player['socketID'];
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     IconData iconData;
     String value;
     String family;
     Color color;
+    RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
+    findPlayerMe(roomDataProvider);
 
 
     if(widget.cardValue.length >= 3 ){
@@ -84,7 +97,17 @@ class _PlayingCardState extends State<PlayingCard> {
      color = Colors.black;
    }
 
-    return Container(
+    return GestureDetector(
+
+      onTap: (){
+        if(playerMe['nickname'] == roomDataProvider.roomData['turn']['nickname']){
+
+          _socketMethods.chooseCard(widget.cardValue, roomDataProvider.roomData['_id'], socketId );
+        }
+
+      },
+
+      child: Container(
       width: 80,
       height: 120,
       decoration: BoxDecoration(
@@ -115,6 +138,7 @@ class _PlayingCardState extends State<PlayingCard> {
           ),
         ],
       ),
+    ),
     );
   }
 }

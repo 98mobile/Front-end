@@ -18,13 +18,12 @@ class _GameInfoState extends State<GameInfo> {
     super.initState();
     _socketMethods.updateRoomListener(context);
     _socketMethods.updatePlayersStateListener(context);
-    _socketMethods.endGameListener(context);
   }
 
   @override
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
-
+    print("effrrf"+roomDataProvider.roomData.toString());
     return SafeArea(
       child: Container(
         alignment: Alignment.topCenter,

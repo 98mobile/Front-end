@@ -20,7 +20,6 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   final SocketMethods _socketMethods = SocketMethods();
-  late RoomDataProvider? room;
 
   @override
   void initState() {
@@ -32,10 +31,9 @@ class _GameScreenState extends State<GameScreen> {
         DeviceOrientation.landscapeRight,
       ]
     );
-    _socketMethods.updateRoomListener(context);
-    _socketMethods.updatePlayersStateListener(context);
     _socketMethods.endGameListener(context);
-    room = Provider.of<RoomDataProvider>(context, listen: false);
+    _socketMethods.updateRoomListener(context);
+
 
   }
   @override
@@ -60,7 +58,7 @@ class _GameScreenState extends State<GameScreen> {
               child: Row(
                 children: [
                   PlayerList(players: players,),
-                  SizedBox(height: 150, width: 150,),
+                  SizedBox(height: 150, width: 300,),
                   CardsMiddle('Rco'),
                   SizedBox(height: 70,),
               ]

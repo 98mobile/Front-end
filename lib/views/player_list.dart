@@ -49,13 +49,14 @@ class _PlayerListState extends State<PlayerList> {
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
     List players = roomDataProvider.roomData['players'];
-    print("La liste des joueurs " + players.toString());
+    print("##################La liste des joueurs " + players.toString());
 
     /* variables */
     Color color = hexColor("6689A1");
     Color fond = hexColor("292F36");
     Color allbox = hexColor("8D8E8E");
     var nombre= numberPlayers(players);
+
 
     return Container(
       height: 200,
@@ -70,7 +71,7 @@ class _PlayerListState extends State<PlayerList> {
             children: [
               SizedBox(height: 5,),
               TitleListe(color, fond),
-              for (int i = 0; i< nombre; i++) OtherPlayerCards(playerName: players[i]['nickname'])
+              for (int i = 0; i< nombre; i++)  OtherPlayerCards(playerName: players[i]['nickname'])
 
       ],
           ),
