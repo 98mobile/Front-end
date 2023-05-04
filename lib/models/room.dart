@@ -9,6 +9,7 @@ class Room {
   final int maxScore;
   final int currentScore;
    Player turn;
+   Player menBefore;
   final int turnIndex;
   final String lastCard;
   
@@ -21,6 +22,7 @@ class Room {
     required this.occupancy,
     required this.maxScore,
     required this.turn,
+    required this.menBefore,
     required this.turnIndex,
     required this.lastCard,
     required this.currentScore,
@@ -35,6 +37,7 @@ class Room {
     'maxScore': maxScore,
     'maxScore': maxScore,
     'turn': turn,
+    'menBefore': menBefore,
     'turnIndex': turnIndex,
     'lastCard': lastCard,
     'currentScore': currentScore,
