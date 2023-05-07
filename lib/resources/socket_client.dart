@@ -4,8 +4,10 @@ class SocketClient {
   IO.Socket? socket;
   static SocketClient? _instance;
 
+  //'http://192.168.1.168:3000'
+  //https://server98v1.azurewebsites.net
   SocketClient._internal() {
-    socket = IO.io('http://192.168.1.168:3000', <String, dynamic>{
+    socket = IO.io('https://server98v1.azurewebsites.net', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });

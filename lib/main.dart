@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => RoomDataProvider(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: '98 mobile',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: bgColor,
         ),
